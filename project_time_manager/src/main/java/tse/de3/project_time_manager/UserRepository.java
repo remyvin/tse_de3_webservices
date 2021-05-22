@@ -23,7 +23,8 @@ public class UserRepository {
         thibaud.setIdUser(0);
         thibaud.setFirstname("Thibaud");
         thibaud.setLastname("Cruzille");
-        thibaud.setUsername("tcruzille");
+        thibaud.setMail("tcruzille@yopmail.com");
+        thibaud.setPassword("tibot");
         thibaud.setRole(Role.MANAGER);
         thibaud.setTeam(1);
         users.put(thibaud.getIdUser(), thibaud);
@@ -32,7 +33,8 @@ public class UserRepository {
         remym.setIdUser(1);
         remym.setFirstname("Rémy");
         remym.setLastname("Moulaire");
-        remym.setUsername("rmoulaire");
+        remym.setMail("rmoulaire@yahoo.fr");
+        remym.setPassword("raimi");
         remym.setRole(Role.DEVELOPER);
         remym.setTeam(1);
         users.put(remym.getIdUser(), remym);
@@ -41,7 +43,8 @@ public class UserRepository {
         remyv.setIdUser(2);
         remyv.setFirstname("Rémy");
         remyv.setLastname("Viniacourt");
-        remyv.setUsername("rviniacourt");
+        remyv.setMail("re.viniacourt@gmail.com");
+        remyv.setPassword("reymy");
         remyv.setRole(Role.DEVELOPER);
         remyv.setTeam(2);
         users.put(remyv.getIdUser(), remyv);
@@ -52,10 +55,10 @@ public class UserRepository {
         return users.get(id_user);
     }
     
-    public User findUserByUsername(String username) {
-        Assert.notNull(username, "The user's username must not be null");
+    public User findUserByMail(String mail) {
+        Assert.notNull(mail, "The user's mail must not be null");
         for(Map.Entry<Integer, User> entry : users.entrySet()) {
-        	if(entry.getValue().getUsername().compareTo(username)==0) {
+        	if(entry.getValue().getMail().compareTo(mail)==0) {
         		return users.get(entry.getKey());
         	}
         }
@@ -71,5 +74,19 @@ public class UserRepository {
         	}
         }
         return teamUsers; //retourne la liste des users
+    }
+    
+    public User findUserConnection(String mail, String password) {
+        Assert.notNull(mail, "The user's mail must not be null");
+        Assert.notNull(password, "The user's password must not be null");
+        for(Map.Entry<Integer, User> entry : users.entrySet()) {
+        	if(entry.getValue().getMail().compareTo(mail)==0) {
+        		if(entry.getValue().getPassword().compareTo(password)==0) { 			
+        			return users.get(entry.getKey());
+        		}
+        		return null; // mail bon mais mot de passe incorrect 
+        	}
+        }
+        return null;
     }
 }
