@@ -2,8 +2,15 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Homepage from '../components/Homepage.vue'
 import Connexion from '../components/Connexion.vue'
+import Edition from '../components/Edition.vue'
+import Equipe from '../components/Equipe.vue'
+import BootstrapVue from 'bootstrap-vue'
+import 'xmldom-ts';
+
 
 Vue.use(VueRouter)
+Vue.use(BootstrapVue)
+window.axios = require('axios');
 
 const routes = [
   {
@@ -12,9 +19,19 @@ const routes = [
     component: Homepage
   },
   {
-    path: '/connexion',
-    name: 'connexion',
+    path: '/Connexion',
+    name: 'Connexion',
     component: Connexion
+  },
+  {
+    path: '/Equipe',
+    name: 'Equipe',
+    component: Equipe
+  },
+  {
+    path: '/Edition',
+    name: 'Edition',
+    component: Edition
   }
 ]
 
