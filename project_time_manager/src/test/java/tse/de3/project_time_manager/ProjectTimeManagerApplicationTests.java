@@ -1,10 +1,10 @@
-package tse.de3.project_webservice;
+package tse.de3.project_time_manager;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class ProjectWebserviceApplicationTests {
+class ProjectTimeManagerApplicationTests {
 
 	@Test
 	void contextLoads() {

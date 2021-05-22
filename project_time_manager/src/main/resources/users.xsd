@@ -16,12 +16,45 @@
             </xs:sequence>
         </xs:complexType>
     </xs:element>
+    
+	<xs:element name="getUserByUsernameRequest">
+    	<xs:complexType>
+        	<xs:sequence>
+            	<xs:element name="username" type="xs:string"/>
+         	</xs:sequence>
+    	</xs:complexType>
+ 	</xs:element>
+	
+	 <xs:element name="getUserByUsernameResponse">
+	     <xs:complexType>
+	         <xs:sequence>
+	             <xs:element name="user" type="tns:user"/>
+	         </xs:sequence>
+	     </xs:complexType>
+	 </xs:element>
+	 
+	 <xs:element name="getUserByTeamRequest">
+    	<xs:complexType>
+        	<xs:sequence>
+            	<xs:element name="team" type="xs:int"/>
+         	</xs:sequence>
+    	</xs:complexType>
+ 	</xs:element>
+	
+	 <xs:element name="getUserByTeamResponse">
+	     <xs:complexType>
+	         <xs:sequence>
+	             <xs:element name="user" type="tns:user" minOccurs="0" maxOccurs="unbounded"/>
+	         </xs:sequence>
+	     </xs:complexType>
+	 </xs:element>
 
     <xs:complexType name="user">
         <xs:sequence>
             <xs:element name="id_user" type="xs:int"/>
             <xs:element name="firstname" type="xs:string"/>
             <xs:element name="lastname" type="xs:string"/>
+            <xs:element name="username" type="xs:string"/>
             <xs:element name="role" type="tns:role"/>
             <xs:element name="team" type="xs:int"/>
         </xs:sequence>

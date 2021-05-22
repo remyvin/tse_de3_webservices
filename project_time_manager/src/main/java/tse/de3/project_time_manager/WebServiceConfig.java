@@ -1,4 +1,4 @@
-package tse.de3.project_webservice;
+package tse.de3.project_time_manager;
 
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.ApplicationContext;
@@ -34,7 +34,7 @@ public class WebServiceConfig extends WsConfigurerAdapter {
     }
 
     @Bean
-    public XsdSchema usersSchema() {
+    public XsdSchema userssSchema() {
         return new SimpleXsdSchema(new ClassPathResource("users.xsd"));
     }
 }
