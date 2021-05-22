@@ -23,6 +23,8 @@ Vue.prototype.$userForm = {
   connected:false
 }
 
+Vue.prototype.$isManager = false
+
 new Vue({
   router,
   render: h => h(App)

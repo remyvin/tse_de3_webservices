@@ -4,7 +4,7 @@
     <b-card class="mx-auto">
         <h2> Connexion </h2><br>
 
-            <b-form @submit="onSubmit" v-if="show"> <!-- FORMULAIRE DE CONNEXION -->
+            <b-form @submit="onSubmit" v-on:submit.prevent> <!-- FORMULAIRE DE CONNEXION -->
                 <b-form-group id="input-group-1" label="Email address:" label-for="input-1">
                     <b-form-input id="input-1" v-model="form.email" type="email" placeholder="Enter email" class="formInputs" required> </b-form-input>
                 </b-form-group>
@@ -37,7 +37,6 @@ export default {
     methods: {
       onSubmit(event) {
         event.preventDefault()
-        alert(JSON.stringify(this.form))
         this.$userForm.email = this.form.email;
         this.$userForm.password = this.form.password;
 
@@ -78,7 +77,13 @@ export default {
                 this.$userForm.teamNumber = teamNumber_nodes[0].firstChild.data;
                 
                 this.$userForm.connected = true;
+                if(this.$userForm.role == "manager"){
+                    this.$isManager = true;
+                    console.log('check manager');
+                }
                 console.log(this.$userForm); // FULL FORMULAIRE UTILISATEUR REMPLI
+
+                this.$router.push('/') //RETOURNER SUR LA HOMEPAGE SANS FULL REFRESH
                 })
                 .catch(err=>{console.log(err)});   
       }

@@ -13,16 +13,19 @@
           <b-navbar-nav>
             <b-nav-item> <router-link to="/" class="headerMenuText">Homepage</router-link> </b-nav-item>
             <b-nav-item> <router-link to="/Edition" class="headerMenuText">Édition</router-link> </b-nav-item>
-            <b-nav-item> <router-link to="/Equipe" class="headerMenuText">Équipe</router-link> </b-nav-item>
+            <b-nav-item> <router-link to="/Equipe" class="headerMenuText">Équipe</router-link></b-nav-item>
           </b-navbar-nav>
         </b-collapse>
       </b-navbar>   
 
       <div class="connexionSide">
 
-        <div v-if="$userForm.connected == true"> Connected as : {{$userForm.firstName}} </div>
-        <div v-else> Not connected </div>
+        <div v-if="$userForm.connected == true"> Connected as : {{$userForm.firstName}} 
+          <b-button class="connexionButton" href="http://localhost:8080">Se déconnecter</b-button>
+        </div>
+        <div v-else class="notConnected"> Not connected
         <b-button class="connexionButton"><router-link to="/Connexion" class="connexionButton">Connexion</router-link></b-button>
+        </div>
       </div>
     </header>
     <router-view/>
@@ -35,7 +38,7 @@
 
  export default {
    name: 'app',
-
+   
   }
 </script>
 
@@ -56,8 +59,8 @@ body{
   display: flex;
   align-items:center;
   justify-content: space-between;
-  background-color: cadetblue;
-  border-bottom: solid 3px rgb(57, 129, 236);
+  background-color: rgb(48, 48, 48);
+  border-bottom: solid 3px rgb(190, 91, 34);
   padding-left: 15px;
 }
 
@@ -77,6 +80,7 @@ body{
 .connexionSide{
   align-items:center;
   color: rgb(235, 235, 235);
+  display: flex;
 }
 
 .connexionButton{
@@ -86,6 +90,10 @@ body{
   justify-content: center;
   margin-right: 15px;
   margin-left: 15px;
+}
+
+.notConnected{
+  margin:auto;
 }
 
 </style>
