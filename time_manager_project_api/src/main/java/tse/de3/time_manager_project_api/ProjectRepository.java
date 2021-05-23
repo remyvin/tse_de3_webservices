@@ -1,6 +1,8 @@
 package tse.de3.time_manager_project_api;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
@@ -30,5 +32,9 @@ public class ProjectRepository {
     public Project findProject(Integer id_project) {
         Assert.notNull(id_project, "The project's id must not be null");
         return projects.get(id_project);
+    }
+    
+    public List<Project> findAllProject() {
+        return new ArrayList<Project>(projects.values());   
     }
 }

@@ -6,6 +6,8 @@ import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
 import org.springframework.ws.server.endpoint.annotation.RequestPayload;
 import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
 
+import io.spring.guides.gs_producing_web_service.GetAllProjectRequest;
+import io.spring.guides.gs_producing_web_service.GetAllProjectResponse;
 import io.spring.guides.gs_producing_web_service.GetProjectRequest;
 import io.spring.guides.gs_producing_web_service.GetProjectResponse;
 
@@ -26,6 +28,15 @@ public class ProjectEndpoint {
         GetProjectResponse response = new GetProjectResponse();
         response.setProject(projectRepository.findProject(request.getIdProject()));
 
+        return response;
+    }
+    
+    @PayloadRoot(namespace = NAMESPACE_URI, localPart = "getAllProjectRequest")
+    @ResponsePayload
+    public GetAllProjectResponse getUser(@RequestPayload GetAllProjectRequest request) {
+    	GetAllProjectResponse response = new GetAllProjectResponse();
+        response.getProject().addAll(projectRepository.findAllProject());  
+        
         return response;
     }
 }

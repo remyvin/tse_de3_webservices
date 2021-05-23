@@ -1,5 +1,7 @@
 package tse.de3.time_manager_rest_api.service.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,6 +22,11 @@ public class TimeServiceImpl implements TimeService {
 	public Time findTime(Integer id_time) {
 
 		return this.timeRepository.findById(id_time).orElse(null);
+	}
+	
+	@Transactional(readOnly = true)
+	public List<Time> findAllTime() {
+		return this.timeRepository.findAll();
 	}
 
 	@Override

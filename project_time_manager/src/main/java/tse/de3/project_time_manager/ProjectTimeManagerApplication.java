@@ -9,5 +9,4 @@ public class ProjectTimeManagerApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(ProjectTimeManagerApplication.class, args);
 	}
-
 }

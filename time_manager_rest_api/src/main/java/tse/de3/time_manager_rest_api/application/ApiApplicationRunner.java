@@ -15,12 +15,10 @@ public class ApiApplicationRunner implements ApplicationRunner {
 
 	@Override
 	public void run(ApplicationArguments args) throws Exception {
-		Time time1 = new Time(1, "re.viniacourt@gmail.com", "Cerberus",1,2,2,2021);
-		Time time2 = new Time(2, "re.viniacourt@gmail.com", "Zero",2,3,10,2019);
+		Time time1 = new Time(3, 1, 1, 2, 2, 2021);
+		Time time2 = new Time(3, 1, 1, 2, 2, 2021);
 			
 		this.timeRepository.save(time1);
 		this.timeRepository.save(time2);
-		
-		System.out.println("Base de données initialisée");
 	}
 }
