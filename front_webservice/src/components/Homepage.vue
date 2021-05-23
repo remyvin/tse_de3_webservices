@@ -3,7 +3,8 @@
     <div v-if="$userForm.role != ''">
       <header class="homepageHeader">
         <div class="entryList">
-          <b-form @submit="onSubmit" @reset="onReset" v-if="show"> <!-- FORMULAIRE D'ENTREE DE TEMPS -->
+          <b-form class="addForm" @submit="onSubmit" @reset="onReset" v-if="show"> <!-- FORMULAIRE D'ENTREE DE TEMPS -->
+            <p class="addTimeText"> Ajouter un temps </p>
             <b-form-select fluid="sm" md="4" class="dropdownForms" v-model="form.week" :options="weekOptions"></b-form-select>
             <b-form-select fluid="sm" md="4" class="dropdownForms" v-model="form.year" :options="weekOptions"></b-form-select>
             <b-form-select fluid="sm" md="4" class="dropdownForms" v-model="form.project" :options="projectOptions"></b-form-select>
@@ -13,11 +14,16 @@
         </div>
       </header>
 
-      <div>
-        <div>
-            1 of 2
+      <div class=mainPage>
+        <div class="filterPanel">
+            <b-form class="filterForm" @submit="filterSubmit" @reset="filterReset" v-if="show"> <!-- FORMULAIRE DE REFRESH DE TEMPS -->
+              <p class="addTimeText"> Filtrer les temps  </p>
+              <b-form-select fluid="sm" md="4" class="dropdownForms" ></b-form-select>
+              <b-form-select fluid="sm" md="4" class="dropdownForms" ></b-form-select>
+              <b-button class='timeFormButton' type="submit"> Voir ces temps</b-button>
+            </b-form> <!-- FIN DU FORMULAIRE DE REFRESHDE TEMPS -->
         </div>
-        <div>
+        <div class="timeListPanel">
             2 of 2
         </div>
       </div>
@@ -143,10 +149,16 @@ body{
   width: 200px;
 }
 
-form{
+.addForm{
   width: 100%;
   position: absolute;
   align-items: center;
+}
+
+.filterForm{
+  width: 100%;
+  align-items: center;
+  display: initial;
 }
 
 .dropdownForms{
@@ -186,5 +198,28 @@ form{
   margin: auto;
 }
 
+.addTimeText{
+  font-size: 1.3em;
+  font-family: 'Lato', sans-serif;
+  font-weight: 300;
+  margin-left: 20px;
+  margin-bottom: 0px;
+}
+
+.mainPage{
+  width: 100%;
+}
+
+.filterPanel{
+  background-color: rgb(226, 226, 226);
+  border-right: solid 2px rgb(190, 91, 34);
+  border-bottom: solid 2px rgb(190, 91, 34);
+  padding-left: 10px;
+  padding-top: 10px;
+}
+
+.timeListPanel{
+  margin: 15px;
+}
 
 </style>
