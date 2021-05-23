@@ -1,13 +1,14 @@
 <template>
   <div id="Equipe">
-    <b-form @submit="userListSubmit" v-on:submit.prevent>
-      <b-button class='formButton' type="submit" >Afficher liste</b-button>
-    </b-form>
     <h2 class="plsConnect"> Voici votre équipe : </h2>
     
       <ul>
-        <li v-for="user in $userList" :key="user">
-          <p> {{ user.firstName }} </p>
+        <li class="userName" v-for="user in userList" :key="user">
+          <p>{{user.firstName}} {{user.lastName}}</p>
+          <div class="userButtonDiv">
+            <b-button class="userButton"> Voir les temps</b-button>
+            <b-button class="userButton"> Editer </b-button>
+          </div>
         </li>
       </ul>
 
@@ -17,12 +18,18 @@
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
 <script>
-import * as xpath from 'xpath-ts';
 
 export default {
+  data(){
+    return {
+      userList: []
+    }
+  },
+  beforeMount(){
+      this.getUserList();
+  },
     methods: {
-      userListSubmit(event) {
-        event.preventDefault()
+      getUserList(){
         let queryUsers = '<x:Envelope xmlns:x="http://schemas.xmlsoap.org/soap/envelope/" xmlns:gsp="http://spring.io/guides/gs-producing-web-service">'+
                               '<x:Header/>'+
                               '<x:Body>'+
@@ -31,7 +38,7 @@ export default {
                                 '</gsp:getUserByTeamRequest>'+
                               '</x:Body>'+
                             '</x:Envelope>';
-          let url = 'http://176.190.50.162:8081/ws';
+          let url = this.$urlSOAP_Users;
           axios.post(url,
                       queryUsers,
                       {
@@ -50,56 +57,40 @@ export default {
                   var users_role = xmlDoc.getElementsByTagName("ns2:role");
                   var users_team = xmlDoc.getElementsByTagName("ns2:team");
 
-                  console.log(this.$userListFetched);
-                  if (this.$userListFetched == 0){
-                    this.$userListFetched = 1;
-                    console.log(this.$userListFetched);
-                    for(var i=0; i < users_id.length; i++){
-                      
-                      var oneUser = { user_id: '',
-                                    firstName: '',
-                                    lastName: '',
-                                    email: '',
-                                    role: '',
-                                    teamNumber:''
-                                  }
-
-                      oneUser.user_id = users_id[i].childNodes[0].nodeValue;
-                      oneUser.firstName = users_firstname[i].childNodes[0].nodeValue;
-                      oneUser.lastName = users_lastname[i].childNodes[0].nodeValue;
-                      oneUser.email = users_mail[i].childNodes[0].nodeValue;
-                      oneUser.role = users_role[i].childNodes[0].nodeValue;
-                      oneUser.teamNumber = users_team[i].childNodes[0].nodeValue;
-                      console.log(oneUser);
-                      this.$userList.push(oneUser);
-
-                    //Tous les utilisateurs dans la même équipe que le manager seront dans cette liste.
-                    }
+                  file_exist_loop:
+                  for(var i=0; i < users_id.length; i++){
                     
-                    console.log(this.$userList)
-                    this.$router.push('/')
+                    var oneUser = { user_id: '',
+                                  firstName: '',
+                                  lastName: '',
+                                  email: '',
+                                  role: '',
+                                  teamNumber:''
+                                }
+
+                    oneUser.user_id = users_id[i].childNodes[0].nodeValue;
+                    oneUser.firstName = users_firstname[i].childNodes[0].nodeValue;
+                    oneUser.lastName = users_lastname[i].childNodes[0].nodeValue;
+                    oneUser.email = users_mail[i].childNodes[0].nodeValue;
+                    oneUser.role = users_role[i].childNodes[0].nodeValue;
+                    oneUser.teamNumber = users_team[i].childNodes[0].nodeValue;
+
+                    for (var i =0; i <this.userList.length; i++){ //only add user when its not in list
+                      console.log(this.userList[i].user_id);
+                      console.log(oneUser.user_id);
+                      if(this.userList[i].user_id == oneUser.user_id){
+                        continue file_exist_loop;
+                      }
+                    }
+
+                    this.userList.push(oneUser);
+                    
+
+                  //Tous les utilisateurs dans la même équipe que le manager seront dans cette liste.
                   }
 
-                  /*const user_id_nodes = xpath.select("//[local-name()='id_user']", parser);
-                  oneUser.user_id = user_id_nodes[0].firstChild.data;
-
-                  const firstname_nodes = xpath.select("//[local-name()='firstname']", parser);
-                  oneUser.firstName = firstname_nodes[0].firstChild.data;
-
-                  const lastname_nodes = xpath.select("//[local-name()='lastname']", parser);
-                  oneUser.lastName = lastname_nodes[0].firstChild.data;
-
-                  const role_nodes = xpath.select("//[local-name()='role']", parser);
-                  oneUser.role = role_nodes[0].firstChild.data;
-
-                  const teamNumber_nodes = xpath.select("//*[local-name()='team']", parser);
-                  oneUser.teamNumber = teamNumber_nodes[0].firstChild.data;
-
-                  const email_nodes = xpath.select("//*[local-name()='mail']", parser);
-                  oneUser.email = email_nodes[0].firstChild.data;*/
-
-                  })
-                  .catch(err=>{console.log(err)});
+                })
+                .catch(err=>{console.log(err)});
     }
   }
 }
@@ -117,6 +108,24 @@ export default {
   margin-top: 10px;
 } 
 
+.userName{
+  text-decoration: none;
+  font-family: 'Lato', sans-serif;
+  font-size: 1.3em;
+  font-weight: 200;
+  margin-top: 30px;
+  display: flex;
+  margin: auto;
+  justify-content: space-between;
+}
 
+.userButtonDiv{
+  width: 50%;
+}
+
+.userButton{
+  margin-right: 15px;
+  width: 40%;
+}
 
 </style>

@@ -8,7 +8,7 @@
             <b-form-select fluid="sm" md="4" class="dropdownForms" v-model="form.year" :options="weekOptions"></b-form-select>
             <b-form-select fluid="sm" md="4" class="dropdownForms" v-model="form.project" :options="projectOptions"></b-form-select>
             <b-form-select fluid="sm" md="4" class="dropdownForms" v-model="form.time" :options="timeOptions"></b-form-select>
-            <b-button class='timeFormButton' type="submit">Entrer le temps</b-button>
+            <b-button class='timeFormButton' type="submit">Entrer le nouveau temps</b-button>
           </b-form> <!-- FIN DU FORMULAIRE D'ENTREE DE TEMPS -->
         </div>
       </header>
@@ -31,6 +31,8 @@
   </div>
 </template>
 
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
 <script>
 export default {
    data() {
@@ -51,10 +53,8 @@ export default {
           { value: 'semaine4', text: 'Semaine 4' }
         ],
         projectSelected: null,
-        projectOptions: [
+        projectOptions: [],
 
-          //{ value: 'projet1', text: 'projet 1' }
-        ],
         timeSelected: null,
         timeOptions: [
           { value: '0.25', text: '0.25' },
@@ -64,7 +64,57 @@ export default {
         ]
         
       }
-    }
+    },
+    beforeMount(){
+      this.getProject();
+    },
+
+    methods: {
+      getProject: function(){
+        let queryProjects = '<x:Envelope xmlns:x="http://schemas.xmlsoap.org/soap/envelope/" xmlns:gsp="http://spring.io/guides/gs-producing-web-service">'+
+                            '<x:Header/>'+
+                            '<x:Body>'+
+                            '<gsp:getAllProjectRequest></gsp:getAllProjectRequest>'+
+                            '</x:Body>'+
+                            '</x:Envelope>';
+          let url = this.$urlSOAP_Projects;
+          axios.post(url,
+                      queryProjects,
+                      {
+                      headers: {
+                          'Content-Type': 'text/xml'
+                          }
+                      }
+                    )
+          .then(res=>{
+            var projectList = []
+            var parser = new DOMParser();
+            var xmlDoc = parser.parseFromString(res.data,"text/xml");
+            var projects_id = xmlDoc.getElementsByTagName("ns2:id_project");
+            var projects_name = xmlDoc.getElementsByTagName("ns2:name");
+
+            for(var i=0; i < projects_id.length; i++)
+            {
+              
+              var oneProject = 
+              { 
+                value: '',
+                text: '',
+              }
+
+              oneProject.value = projects_name[i].childNodes[0].nodeValue;
+              oneProject.text = projects_name[i].childNodes[0].nodeValue;    
+              projectList.push(oneProject);
+            }
+            console.log(projectList);
+            this.projectOptions = projectList;
+
+          })
+          .catch(err=>{console.log(err)});
+    },
+    onSubmit(){},
+    onReset(){}
+  }
 }
     
 </script>
@@ -84,7 +134,7 @@ body{
   height: 8rem;
   width: 100%;
   display: flex;
-  background-color: rgb(224, 224, 224);
+  background-color: rgb(226, 226, 226);
   padding-left: 10px;
   border-bottom: solid 2px rgb(190, 91, 34);
 }

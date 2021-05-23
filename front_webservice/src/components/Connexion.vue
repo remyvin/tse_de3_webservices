@@ -49,7 +49,7 @@ export default {
                                 '</gsp:getUserConnectionRequest>'+
                             '</x:Body>'+
                         '</x:Envelope>';
-        let url = 'http://176.190.50.162:8081/ws';
+        let url = this.$urlSOAP_Users;
         axios.post(url,
                    data_to_send,
                    {

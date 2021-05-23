@@ -10,6 +10,15 @@ Vue.use(BootstrapVue)
 Vue.use(Vuex)
 window.axios = require('axios');
 
+//VARIABLES A CHANGER POUR CONNEXION API : 
+Vue.prototype.$urlSOAP_Users = 'http://176.190.50.162:8081/ws';
+Vue.prototype.$urlSOAP_Projects = 'http://176.190.50.162:8082/ws';
+Vue.prototype.$urlREST_Times = '';
+
+
+
+
+
 Vue.config.productionTip = false
 
 Vue.prototype.$userForm = {
@@ -34,7 +43,6 @@ Vue.prototype.$managerSelectedUser = {
 }
 
 Vue.prototype.$userList = []
-Vue.prototype.$userListFetched = 0
 
 new Vue({
   router,
