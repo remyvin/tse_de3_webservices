@@ -77,16 +77,13 @@ export default {
                 this.$userForm.teamNumber = teamNumber_nodes[0].firstChild.data;
                 
                 this.$userForm.connected = true;
-                if(this.$userForm.role == "manager"){
-                    this.$isManager = true;
-                    console.log('check manager');
-                }
                 console.log(this.$userForm); // FULL FORMULAIRE UTILISATEUR REMPLI
 
                 this.$router.push('/') //RETOURNER SUR LA HOMEPAGE SANS FULL REFRESH
                 })
                 .catch(err=>{console.log(err)});   
-      }
+        },
+      
     }
 }
 </script>

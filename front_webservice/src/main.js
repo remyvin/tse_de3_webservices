@@ -19,11 +19,22 @@ Vue.prototype.$userForm = {
   email: '',
   password: '',
   role: '',
-  teamNumber:'',
+  teamNumber:0,
   connected:false
 }
 
-Vue.prototype.$isManager = false
+Vue.prototype.$managerSelectedUser = {
+  user_id: '',
+  firstName: '',
+  lastName: '',
+  email: '',
+  password: '',
+  role: '',
+  teamNumber:''
+}
+
+Vue.prototype.$userList = []
+Vue.prototype.$userListFetched = 0
 
 new Vue({
   router,

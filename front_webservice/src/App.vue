@@ -13,11 +13,11 @@
           <b-navbar-nav>
             <b-nav-item> <router-link to="/" class="headerMenuText">Homepage</router-link> </b-nav-item>
             <b-nav-item> <router-link to="/Edition" class="headerMenuText">Édition</router-link> </b-nav-item>
-            <b-nav-item> <router-link to="/Equipe" class="headerMenuText">Équipe</router-link></b-nav-item>
           </b-navbar-nav>
         </b-collapse>
       </b-navbar>   
 
+      <div v-if="$userForm.role === 'manager'"> <router-link to="/Equipe" class="headerMenuText2">GÉRER MON ÉQUIPE</router-link> </div>
       <div class="connexionSide">
 
         <div v-if="$userForm.connected == true"> Connected as : {{$userForm.firstName}} 
@@ -72,6 +72,27 @@ body{
   font-size: 1.3em;
 }
 
+.headerMenuText:hover{
+  color: rgb(218, 158, 47);
+}
+
+
+.headerMenuText2{
+  color: azure;
+  text-decoration: none;
+  margin-right: 15px;
+  font-weight: 200;
+  font-size: 1.3em;
+  border: solid azure 1px;
+  border-radius: 5px;
+  padding: 4px;
+}
+
+.headerMenuText2:hover{
+  color: rgb(218, 158, 47);
+  border: solid rgb(218, 158, 47) 1px;
+}
+
 .navigationBar{
   height: 4rem;
   margin: 0px;
@@ -90,6 +111,10 @@ body{
   justify-content: center;
   margin-right: 15px;
   margin-left: 15px;
+}
+
+.connexionButton:hover{
+  color: rgb(218, 158, 47);
 }
 
 .notConnected{
