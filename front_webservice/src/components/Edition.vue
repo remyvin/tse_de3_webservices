@@ -1,7 +1,7 @@
 <template>
   <div id="Edition">
     <div v-if="$userForm.role != ''">
-      EDITION PAGE
+      <h2 class="timeListTitle"> Voici la liste des mois à imprimer : </h2>
 
 
 
@@ -31,6 +31,13 @@ export default {
   align-items: center;
   color: rgb(63, 63, 63);
   margin-top: 50px;
+}
+
+.timeListTitle{
+  align-items: center;
+  color: rgb(63, 63, 63);
+  margin-top: 20px;
+  margin-left: 20px;
 }
 
 </style>

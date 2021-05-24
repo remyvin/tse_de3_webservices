@@ -3,10 +3,10 @@
     <div v-if="$userForm.role != ''">
       <header class="homepageHeader">
         <div class="entryList">
-          <b-form class="addForm" @submit="onSubmit" @reset="onReset" v-if="show"> <!-- FORMULAIRE D'ENTREE DE TEMPS -->
+          <b-form class="addForm" @submit="addNewTime" @reset="onReset" v-if="show"> <!-- FORMULAIRE D'ENTREE DE TEMPS -->
             <p class="addTimeText"> Ajouter un temps </p>
             <b-form-select fluid="sm" md="4" class="dropdownForms" v-model="form.week" :options="weekOptions"></b-form-select>
-            <b-form-select fluid="sm" md="4" class="dropdownForms" v-model="form.year" :options="weekOptions"></b-form-select>
+            <b-form-select fluid="sm" md="4" class="dropdownForms" v-model="form.year" :options="yearOptions"></b-form-select>
             <b-form-select fluid="sm" md="4" class="dropdownForms" v-model="form.project" :options="projectOptions"></b-form-select>
             <b-form-select fluid="sm" md="4" class="dropdownForms" v-model="form.time" :options="timeOptions"></b-form-select>
             <b-button class='timeFormButton' type="submit">Entrer le nouveau temps</b-button>
@@ -16,16 +16,43 @@
 
       <div class=mainPage>
         <div class="filterPanel">
-            <b-form class="filterForm" @submit="filterSubmit" @reset="filterReset" v-if="show"> <!-- FORMULAIRE DE REFRESH DE TEMPS -->
+            <b-form class="filterForm" @submit="getTimeList" @reset="onReset" v-if="show"> <!-- FORMULAIRE DE REFRESH DE TEMPS -->
               <p class="addTimeText"> Filtrer les temps  </p>
-              <b-form-select fluid="sm" md="4" class="dropdownForms" ></b-form-select>
-              <b-form-select fluid="sm" md="4" class="dropdownForms" ></b-form-select>
-              <b-button class='timeFormButton' type="submit"> Voir ces temps</b-button>
+              <b-form-select fluid="sm" md="4" class="dropdownForms" v-model="filterForm.week" :options="weekOptions"></b-form-select>
+              <b-form-select fluid="sm" md="4" class="dropdownForms" v-model="filterForm.year" :options="yearOptions"></b-form-select>
+              <b-button class='timeFormButton' type="submit"> Voir ces temps (Refresh)</b-button>
             </b-form> <!-- FIN DU FORMULAIRE DE REFRESHDE TEMPS -->
         </div>
+        
         <div class="timeListPanel">
-            2 of 2
+          <h2 class="timeListTitle"> Voici les temps de la semaine selectionnée : </h2>
+
+          <ul>
+            <li class="timeEntryTitles">  
+              <p> Projet </p> 
+              <p> Mois </p>
+              <p> Année </p>
+              <p> Temps passé </p>
+              <img class="binImage" src="../assets/bin.png" width="30" heigth="30"/>
+            </li>
+          </ul>
+
+
+          <ul>
+            <li class="timeEntry" v-for="time in timeList" :key="time">
+              <p class="centerParagraph"> {{time.id_project}}</p> 
+              <p class="centerParagraph"> {{monthConversion[time.month - 1]}} </p>
+              <p class="centerParagraph"> {{time.year}} </p>
+              <p class="centerParagraph"> {{time.nb_time}}h</p>
+              <div class="userButtonDiv">
+                <b-form @submit="deleteTime($event,time.id)" @reset="onReset" v-if="show">
+                  <b-button class="userButton" type="submit"> Supprimer le temps </b-button>
+                </b-form>
+              </div>
+            </li>
+          </ul>
         </div>
+
       </div>
 
     </div>
@@ -49,25 +76,42 @@ export default {
           project: '',
           time: ''
         },
+        month: 0,
+        show: true,
+         filterForm: {
+          week: '',
+          year: ''
+        },
         show: true,
 
         weekSelected: null,
         weekOptions: [
-          { value: 'semaine1', text: 'Semaine 1' },
-          { value: 'semaine2', text: 'Semaine 2' },
-          { value: 'semaine3', text: 'Semaine 3' },
-          { value: 'semaine4', text: 'Semaine 4' }
+          { value: '1', text: 'Semaine 1' },
+          { value: '2', text: 'Semaine 2' },
+          { value: '3', text: 'Semaine 3' },
+          { value: '4', text: 'Semaine 4' },
+          { value: '25', text: 'Semaine 25' }
         ],
         projectSelected: null,
         projectOptions: [],
 
         timeSelected: null,
         timeOptions: [
-          { value: '0.25', text: '0.25' },
-          { value: '0.5', text: '0.5' },
-          { value: '0.75', text: '0.75' },
-          { value: '1', text: '1' }
-        ]
+          { value: '1', text: '1 heure' },
+          { value: '2', text: '2 heures' },
+          { value: '3', text: '3 heures' },
+          { value: '4', text: '4 heures' }
+        ],
+
+        yearOptions: [
+          { value: '2021', text: '2021' }
+        ],
+
+        monthConversion: ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'],
+
+        timeList: [],
+
+        rerenderTimes: 0
         
       }
     },
@@ -83,15 +127,14 @@ export default {
                             '<gsp:getAllProjectRequest></gsp:getAllProjectRequest>'+
                             '</x:Body>'+
                             '</x:Envelope>';
-          let url = this.$urlSOAP_Projects;
-          axios.post(url,
+          let urlProject = this.$urlSOAP_Projects;
+          axios.post(urlProject,
                       queryProjects,
                       {
                       headers: {
                           'Content-Type': 'text/xml'
                           }
-                      }
-                    )
+                      })
           .then(res=>{
             var projectList = []
             var parser = new DOMParser();
@@ -108,7 +151,7 @@ export default {
                 text: '',
               }
 
-              oneProject.value = projects_name[i].childNodes[0].nodeValue;
+              oneProject.value = projects_id[i].childNodes[0].nodeValue;
               oneProject.text = projects_name[i].childNodes[0].nodeValue;    
               projectList.push(oneProject);
             }
@@ -118,8 +161,85 @@ export default {
           })
           .catch(err=>{console.log(err)});
     },
-    onSubmit(){},
-    onReset(){}
+
+    getTimeList(event){
+      event.preventDefault()
+      let queryFetchTimes = '{'+
+                              '"id_user":'+this.$userForm.user_id+','+
+                              '"week":'+this.filterForm.week+','+
+                              '"year":'+this.filterForm.year+
+                              '}';
+                            console.log(queryFetchTimes)
+        
+          let urlTimes = this.$urlREST_fetchTimes;
+
+          axios({
+            method: 'post',
+            url: urlTimes,
+            data: queryFetchTimes,
+            headers: { "Content-Type": "application/json" }
+                      })
+          .then(timeRes=>{ this.timeList = timeRes.data;
+         
+          foundMatch:
+          for(var i=0; i < this.timeList.length; i++)
+            { 
+              for (var j=0; j < this.projectOptions.length; j++){
+                if(this.timeList[i].id_project == this.projectOptions[j].value){
+                  this.timeList[i].id_project = this.projectOptions[j].text;
+                  continue foundMatch;
+                }
+              }
+            }
+})
+          .catch(err=>{console.log(err)});
+    },
+
+    addNewTime(event){
+      event.preventDefault();
+      let urlAddTime = 'http://176.190.50.162:8083/time';
+      this.month = parseInt((this.form.week - 1)/4 + 1);
+      console.log(this.month);
+      let addedData = '{'+
+                 '"id_user":'+this.$userForm.user_id +','+
+                '"id_project":'+this.form.project +','+
+                '"nb_time":'+this.form.time +','+
+                '"week":'+this.form.week +','+
+                '"month":'+this.month +','+
+                '"year":'+this.form.year+
+                '}'
+      console.log(addedData);
+
+      axios({
+      method: 'post',
+      url: urlAddTime, 
+      data: addedData,
+      headers: { "Content-Type": "application/json" }
+      })
+      .then(response=>{
+        window.alert('Temps créé.');
+      }).catch(err=>{console.log(err)});
+    },
+
+    deleteTime(event,timeId){
+      event.preventDefault()
+      let urlDeleteTime = this.$urlREST_deleteTime+timeId
+      console.log(urlDeleteTime);
+      axios.delete(urlDeleteTime, {
+        headers: { "Authorization": "***" } 
+      }).then(response=>{
+        window.alert('Temps supprimé.');
+      });
+    },
+    forceRerender(){
+      this.rerenderTimes += 1
+    },
+    onSubmit(){
+
+    },
+    onReset(){
+
+    }
   }
 }
     
@@ -212,7 +332,6 @@ body{
 
 .filterPanel{
   background-color: rgb(226, 226, 226);
-  border-right: solid 2px rgb(190, 91, 34);
   border-bottom: solid 2px rgb(190, 91, 34);
   padding-left: 10px;
   padding-top: 10px;
@@ -220,6 +339,50 @@ body{
 
 .timeListPanel{
   margin: 15px;
+}
+
+.timeListTitle{
+  align-items: center;
+  color: rgb(63, 63, 63);
+  margin-top: 20px;
+  margin-left: 20px;
+}
+
+.timeEntry{
+  text-decoration: none;
+  font-family: 'Lato', sans-serif;
+  font-size: 1.3em;
+  font-weight: 200;
+  margin-top: 30px;
+  display: flex;
+  margin: auto;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: solid 1px rgb(175, 175, 175);
+  color: rgb(190, 132, 43);
+  padding-bottom: 15px;
+}
+
+.timeEntryTitles{
+  text-decoration: none;
+  font-family: 'Lato', sans-serif;
+  font-size: 1.3em;
+  font-weight: 200;
+  margin-top: 30px;
+  display: flex;
+  margin: auto;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: solid 1px rgb(175, 175, 175);
+}
+
+.binImage{
+  margin-right: 60px;
+}
+
+.centerParagraph{
+  text-align: center;
+  align-items: center;
 }
 
 </style>

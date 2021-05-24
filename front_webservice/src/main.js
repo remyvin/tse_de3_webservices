@@ -10,10 +10,12 @@ Vue.use(BootstrapVue)
 Vue.use(Vuex)
 window.axios = require('axios');
 
-//VARIABLES A CHANGER POUR CONNEXION API : 
+//VARIABLES A CHANGER POUR CONNEXION API AVEC IP DU SERVEUR OU LOCALHOST SI API EN LOCAL: 
 Vue.prototype.$urlSOAP_Users = 'http://176.190.50.162:8081/ws';
 Vue.prototype.$urlSOAP_Projects = 'http://176.190.50.162:8082/ws';
-Vue.prototype.$urlREST_Times = '';
+Vue.prototype.$urlREST_fetchTimes = 'http://176.190.50.162:8083/timebyuwy';
+Vue.prototype.$urlREST_deleteTime = 'http://176.190.50.162:8083/time/';
+Vue.prototype.$urlREST_AddTime = 'http://176.190.50.162:8083/time/';
 
 
 
