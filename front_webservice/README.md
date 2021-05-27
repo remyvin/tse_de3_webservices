@@ -16,6 +16,7 @@ Pour créer votre projet vueJS pour la partie front de votre application il faut
     → npm run serve
 
 ```
+Pour pouvoir vous connecter aux APIs, n'oubliez pas de changer les url d'appels regroupés dans le fichier main.js
 
 ### Compiles and hot-reloads for development
 ```
