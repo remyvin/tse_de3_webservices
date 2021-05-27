@@ -90,7 +90,7 @@ export default {
           { value: '2', text: 'Semaine 2' },
           { value: '3', text: 'Semaine 3' },
           { value: '4', text: 'Semaine 4' },
-          { value: '25', text: 'Semaine 25' }
+          { value: '5', text: 'Semaine 5' }
         ],
         projectSelected: null,
         projectOptions: [],
