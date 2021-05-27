@@ -7,6 +7,7 @@ Pour créer votre projet vueJS pour la partie front de votre application il faut
     → npm install --save axios
     → npm install vuex --save
     → npm install es6-promise --save
+    → npm install vue-html-to-paper --save
     → npm run serve
 
 

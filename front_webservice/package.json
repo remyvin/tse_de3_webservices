@@ -13,6 +13,7 @@
     "es6-promise": "^4.2.8",
     "vue": "^2.6.11",
     "vue-axios": "^3.2.4",
+    "vue-html-to-paper": "^1.4.1",
     "vue-router": "^3.5.1",
     "vuex": "^3.6.2",
     "xmldom-ts": "^0.3.1",

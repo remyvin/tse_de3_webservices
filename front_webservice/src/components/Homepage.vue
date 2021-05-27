@@ -36,8 +36,6 @@
               <img class="binImage" src="../assets/bin.png" width="30" heigth="30"/>
             </li>
           </ul>
-
-
           <ul>
             <li class="timeEntry" v-for="time in timeList" :key="time">
               <p class="centerParagraph"> {{time.id_project}}</p> 

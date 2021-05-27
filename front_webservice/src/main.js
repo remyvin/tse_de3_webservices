@@ -5,9 +5,11 @@ import BootstrapVue from 'bootstrap-vue'
 import Vuex from 'vuex'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
+import VueHtmlToPaper from 'vue-html-to-paper';
 
 Vue.use(BootstrapVue)
 Vue.use(Vuex)
+Vue.use(VueHtmlToPaper);
 window.axios = require('axios');
 
 //VARIABLES A CHANGER POUR CONNEXION API AVEC IP DU SERVEUR OU LOCALHOST SI API EN LOCAL: 
@@ -16,6 +18,7 @@ Vue.prototype.$urlSOAP_Projects = 'http://176.190.50.162:8082/ws';
 Vue.prototype.$urlREST_fetchTimes = 'http://176.190.50.162:8083/timebyuwy';
 Vue.prototype.$urlREST_deleteTime = 'http://176.190.50.162:8083/time/';
 Vue.prototype.$urlREST_AddTime = 'http://176.190.50.162:8083/time/';
+Vue.prototype.$urlREST_fetchMonthly = 'http://176.190.50.162:8083/timebyumy';
 
 
 
