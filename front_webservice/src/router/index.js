@@ -6,12 +6,12 @@ import Edition from '../components/Edition.vue'
 import Equipe from '../components/Equipe.vue'
 import BootstrapVue from 'bootstrap-vue'
 import 'xmldom-ts';
-import VueHtmlToPaper from 'vue-html-to-paper';
+import { VueHtmlToPaper } from "vue-html-to-paper";
 
-Vue.use(VueRouter)
-Vue.use(BootstrapVue)
+Vue.use(VueRouter);
+Vue.use(BootstrapVue);
 window.axios = require('axios');
-Vue.use(VueHtmlToPaper);
+Vue.use(VueHtmlToPaper.default);
 
 const routes = [
   {

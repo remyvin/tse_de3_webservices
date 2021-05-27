@@ -45,6 +45,7 @@
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
 <script>
+
 export default {
   data(){
     return{
@@ -84,7 +85,7 @@ export default {
     },
 
   methods: {
-    print: function(){
+    print(){
       this.$htmlToPaper('printMe');
     },
 
