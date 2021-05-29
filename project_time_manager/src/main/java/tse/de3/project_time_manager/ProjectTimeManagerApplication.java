@@ -2,7 +2,6 @@ package tse.de3.project_time_manager;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-
 @SpringBootApplication
 public class ProjectTimeManagerApplication {
 

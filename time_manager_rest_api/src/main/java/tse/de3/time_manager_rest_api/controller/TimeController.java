@@ -10,11 +10,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+//import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import tse.de3.time_manager_rest_api.domain.Time;
 import tse.de3.time_manager_rest_api.service.TimeService;
-
+//@RequestMapping("/api")
 @RestController
 public class TimeController {
 	
